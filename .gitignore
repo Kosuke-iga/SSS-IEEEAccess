@@ -1,0 +1,11 @@
+*.aux
+*.dvi
+*.fdb_latexmk
+*.log
+*.gz
+*.bst
+*.bbl
+*.blg
+*.fls
+.python-version
+.DS_Store

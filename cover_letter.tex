@@ -1,0 +1,93 @@
+\documentclass[12pt, a4paper]{article}
+\makeatletter
+\pagestyle{empty} % すべてのページ番号を消去
+
+\def\id#1{\def\@id{#1}}
+\def\department#1{\def\@department{#1}}
+\def\@maketitle{
+\begin{center}
+  % \vspace{10mm}
+  {\Large\bf \@title \par}% 論文のタイトル部分
+  % \vspace{10mm}
+  % {\Large \@date\par} % 提出年月日部分
+  % \vspace{3mm}
+  % { \@department 学籍番号 \@id  \@author}  % 所属部分
+  % {\Large 学籍番号　\@id \par}  % 学籍番号部分
+  % \vspace{10mm}
+  % {\large \@author}% 氏名 
+\end{center}
+\par\vskip 1.5em
+}
+\usepackage[top=20truemm,bottom=30truemm,left=15truemm,right=15truemm]{geometry}
+\makeatother
+\title{}
+% \date{\today}
+% \department{ }
+% \id{81719437}
+% \author{加藤広野}
+
+\begin{document}
+\maketitle % ベージ番号を表示するコマンドを呼ぶため，ページ消す場合は下をコメントアウト
+\thispagestyle{empty} % ← ココに\thispagestyleを書く
+
+\begin{flushleft}
+Hiroya Kato\\
+Department of Information and Computer Science, \\
+Faculty of Science and Technology, \\
+Keio University\\
+223-8522\\
+Email: kato@sasase.ics.keio.ac.jp 
+\end{flushleft}
+
+\begin{flushleft}
+Prof. Derek Abbott  \\
+Editor-in-Chief \\
+\emph{IEEE Access}
+\end{flushleft}
+
+\begin{flushleft}
+August 24, 2021 
+\end{flushleft}
+
+\begin{flushleft}
+Dear Prof. Abbott:  \\
+\end{flushleft}
+
+\noindent
+I would like to submit the manuscript entitled ``Android Malware Detection Based on Composition Ratio of Permission Pairs'' by Hiroya Kato, Takahiro Sasaki, and Iwao Sasase to be considered for publication as a ``Regular'' Article in the \textit{IEEE Access}.  
+
+\vspace{\baselineskip}
+\noindent
+This study presents a more practical malware detection scheme in the Android platform, which is the most popular and occupies 85\% of the smartphone market share in the world.
+Practical detection is imperative because approximately 365,000 new Android malware samples have been found in the third quarter of 2019.
+Among various detection schemes, permission pair based ones are promising for practical detection.
+However, conventional schemes cannot simultaneously meet requirements for practical use in terms of efficiency, intelligibility, and stability of detection performance. 
+Even the latest scheme cannot meet the stability whereas other requirements are met.
+This is because recent malware tends to require unnecessary permissions to imitate benign apps, which makes detection difficult.
+These facts motivate us to work on this study.
+Our scheme is suitable for practical use because all the requirements can be met.
+By using real datasets, our results show that our scheme can detect malware with up to 97.3\% accuracy. Besides, compared with a existing scheme, our scheme can reduce the feature dimensions by about 99\% with maintaining comparable accuracy on recent datasets.
+We would like to present our results as soon as possible.
+Therefore, we determined to submit this work to \textit{IEEE Access}.
+This work would contribute to future studies that enhances security on the Android platform.
+We believe this study will be of interest to the readers of your journal.
+
+\vspace{\baselineskip}
+\noindent
+We declare that this manuscript is original, has not been published before and is not currently under construction by another journal.
+
+\vspace{\baselineskip}
+\noindent
+We state that we have had no previous contact with your journal regarding this submission.
+The authors have no conflicts of interest to declare.
+As corresponding author, I confirm that the manuscript has been read and approved for submission by all the authors.  
+
+\vspace{\baselineskip}
+\noindent
+We hope you find our manuscript suitable for publication and look forward to hearing from you in due course.
+
+\begin{flushleft}
+Sincerely, \\
+Hiroya Kato\\
+\end{flushleft}
+\end{document}

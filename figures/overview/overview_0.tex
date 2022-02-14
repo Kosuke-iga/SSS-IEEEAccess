@@ -1,0 +1,121 @@
+\documentclass{standalone}
+\usepackage{tikz}
+% \usepackage[latin1]{inputenc}
+% \usepackage{tikzpeople}
+\usetikzlibrary{shapes,arrows,shapes,shapes.geometric,shadows}
+\usetikzlibrary{positioning}
+% \usetikzlibrary{shapes.geometric} 
+\usetikzlibrary{shapes.misc}
+
+\begin{document}
+    
+\begin{tikzpicture}[]
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=2.5cm, minimum height=1.4cm}};
+  \tikzset{Decision/.style={diamond,  draw,  text centered, aspect=3,text width=2cm, minimum height=1.0cm}};
+  % upper (Training) ========================================
+  \draw[thick, rounded corners=10pt, double distance=1pt] (-2.4,3.8)--(-2.4,8)--(22.7,8)--(22.7,3.8)-- cycle;
+	\node (train) at (-1.5cm, 6cm) [align=center]{Training\\ phase};
+
+	\node (cover) at (0cm, 5cm) {\includegraphics[scale=1.0]{./android.eps}};
+  \coordinate (return) at (0.0cm, 4.6cm) node at (return) [below] {Apps};
+
+  \node (ext_call) at (1.4cm, 5.6cm) [align=center] {Call\ graph\\ extraction};
+  \draw [thick, ->, dashed] (0.5cm, 5cm) -- (2.5cm, 5cm);
+
+	\node (cover_s) at (3cm, 5cm) {\includegraphics[scale=1.0]{./graph.eps}};
+  \coordinate (return) at (3cm, 4.6cm) node at (return) [below] {Call paths};
+
+  \draw [thick, -, dashed] (3.0cm, 4.0cm) -- (3.0cm, 2.5cm); %  lower left arrow
+  \draw [thick, ->, dashed] (3.0cm, 2.5cm) -- (5.0cm, 2.5cm); %  lower left arrow
+
+  \node (cover_s) at (5.1cm, 6.9cm) {\includegraphics[scale=1.5]{./database_w.eps}};
+  \node (cover_s) at (6.0cm, 7.3cm) {\includegraphics[scale=0.8]{./graph_w.eps}};
+  \node (ext_call) at (5.1cm, 6.0cm) [align=center] {SDB};
+
+  \node (cover_s) at (7.2cm, 6.9cm) {\includegraphics[scale=1.5]{./database_b.eps}};
+  \node (cover_s) at (8.1cm, 7.3cm) {\includegraphics[scale=0.8]{./graph_b.eps}};
+  \node (ext_call) at (7.2cm, 6.0cm) [align=center] {TDB};
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=3.7cm, minimum height=1.0cm}};
+  % \node [Process] (c) at (6.5, 6.7) {}; 
+  \node [Process] (c) at (6.4, 5.1) {}; 
+  \node (construction) at (6.4cm, 5.1cm) [align=center] {Caller-callee relationship\\ database construction};
+  % \coordinate (return) at (6cm, 2.5cm) node at (return) [below] {Caller-callee regulatorship Database};
+  \draw [thick, ->, dashed] (3.5cm, 5cm) -- (4.3cm, 5cm); %  upper right arrow
+  \draw [thick, ->, dashed] (6.5cm, 4.5cm) -- (6.5cm, 3.2cm);
+
+  \draw[thick, rounded corners=10pt, double distance=1pt] (-2.4,-1.8)--(-2.4,1.2)--(22.7,1.2)--(22.7,-1.8)-- cycle;
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=2.5cm, minimum height=1.4cm}};
+  \node [Process, fill=white] (c) at (6.5, 2.5) {Unnatural\ score\\ calculation}; 
+
+  \draw [thick, -, dashed] (7.9cm, 2.7cm) -- (10.5cm, 2.7cm);
+  \draw [thick, ->, dashed] (10.5cm, 2.7cm) -- (10.5cm, 4.4cm);
+
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=1.5cm, minimum height=1.0cm}};
+  \node [Process, fill=white] (train) at (16.0, 7.0) [align=center] {Training}; 
+  \draw [thick, ->, dashed] (10.5cm, 7cm) -- (15.1cm, 7cm);
+  \draw [thick, ->, dashed] (16cm, 5.8cm) -- (16cm, 6.5cm);
+
+  \draw [thick, -, dashed] (10.5cm, 5.6cm) -- (10.5cm, 7.0cm);
+  \coordinate (No) at (10.9cm, 6.1cm) node at (No) [below] {No};
+  \node [Decision] (c) at (10.5, 5.0) {AM sample?};
+  \coordinate (Yes) at (12.8cm, 5.5cm) node at (Yes) [below] {Yes};
+  \draw [thick, ->, dashed] (12.5cm, 5cm) -- (14.6cm, 5cm);
+  \draw [thick, ->, dashed] (13.5cm, 5cm) -- (13.5cm, 3.3cm);
+
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=2.5cm, minimum height=1.4cm}};
+  \node [Process, fill=white] (train) at (16.0, 5.0) {Unnatural call path removal}; 
+  \draw [thick, ->, dashed] (17.0cm, 7cm) -- (18.3cm, 7cm);
+
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=1.5cm, minimum height=1.0cm}};
+  \node (model) at (19.0, 7.1) {\includegraphics[scale=1.5]{./model_w.eps}}; 
+  \node (model) at (19.0, 6.0) [align=center] {Detection\\ model}; 
+
+  \draw [thick, ->, dashed] (19.0cm, 5.5cm) -- (19.0cm, 0.5cm);
+
+  %  under (Testing) ==================================================
+  \node (testing) at (-1.5cm, -0.5cm)[align=center] {Testing\\ phase};
+	\node (cover) at (0cm, 0cm) {\includegraphics[scale=1.0]{./android.eps}};
+  \coordinate (return) at (0.0cm, -0.4cm) node at (return) [below] {Apps};
+
+  \node (ext_call) at (1.4cm, 0.6cm) [align=center] {Call\ graph\\ extraction};
+  \draw [thick, ->] (0.5cm, 0cm) -- (2.5cm, 0cm);
+
+	\node (cover_s) at (3cm, 0cm) {\includegraphics[scale=1.0]{./graph.eps}};
+  \coordinate (return) at (3cm, -0.4cm) node at (return) [below] {Call paths};
+
+  \draw [thick, -] (3.5cm, 0cm) -- (6.5cm, 0cm);
+  % \node [Process, fill=white] (c) at (6., 0.0) {Unnatural\ score\\ calculation};
+
+  \draw [thick, -] (7.9cm, 2.3cm) -- (10.5cm, 2.3cm);
+  \draw [thick, ->] (10.5cm, 2.3cm) -- (10.5cm, 0.65cm);
+  \node [Decision] (c) at (10.5, 0.0) {AM sample?};
+
+  \draw [thick, -] (10.5cm, -0.65cm) -- (10.5cm, -1.5cm);
+  \draw [thick, -] (10.5cm, -1.5cm) -- (19.0cm, -1.5cm);
+  \draw [thick, ->] (19.0cm, -1.5cm) -- (19.0cm, -0.5cm);
+  \coordinate (No) at (10.9cm, -0.6cm) node at (No) [below] {No};
+
+  \draw [thick, ->] (6.5cm, 0.0cm) -- (6.5cm, 1.8cm);
+
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=2.5cm, minimum height=1.4cm}};
+  \node [Process, fill=white, align=center] (model) at (16.0, 0.0) {Unnatural call path removal}; 
+  \draw [thick, ->] (17.4cm, 0.0cm) -- (18.1cm, 0.0cm);
+
+  \coordinate (Yes) at (12.8cm, 0.0cm) node at (Yes) [below] {Yes};
+  \draw [thick, ->] (12.4cm, 0.0cm) -- (14.6cm, 0.0cm);
+  \draw [thick, ->] (13.5cm, 0.0cm) -- (13.5cm, 1.6cm);
+
+	\node (cover_s) at (13.5cm, 2.6cm) {\includegraphics[scale=1.5]{./analysis.eps}};
+  \coordinate (return) at (13.5cm, 2.1cm) node at (return) [below] {AM analysis};
+	\node (cover_s) at (15.0cm, 3.0cm) {\includegraphics[scale=0.5]{./virus.eps}};
+	\node (cover_s) at (14.5cm, 2.6cm) {\includegraphics[scale=1]{./android.eps}};
+
+  \tikzset{Process/.style={rectangle,  draw,  text centered, text width=1.5cm, minimum height=1.0cm}};
+  \node [Process, fill=white] (model) at (19.0, 0.0) {Testing}; 
+	% \node (malware) at (15.0cm, -2.0cm) {\includegraphics[scale=0.2]{./malware.png}};
+  \draw [thick, ->] (19.9cm, 0.0cm) -- (20.4cm, 0.0cm);
+  \node (malware) at (21.5cm, 0.0cm) [align=center] {Benign\ apps\\ or\\ Malware};
+
+\end{tikzpicture}
+
+\end{document}
