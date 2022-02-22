@@ -351,7 +351,15 @@ By doing this denoising process, the detection without being misled by AMs would
  \caption{The difference with before and after denoising AM GSI.} 
  \label{fig:denoise}
 \end{figure}
-%\afterpage{\clearpage}
+
+In order to identify the JPs, we focus on the fact that binary regions that are necessary or unnecessary at runtime can be classified according to informataion of each section.
+Based on the information of each section, the JP regions existing in a GSI can be searched by analysing the header in BD.
+An example of a header obtained by analysing a BD is shown in \figurename~\ref{fig:header}.
+From headers, we pay particular attention to the flag that indicates memory allocation at runtime.
+Sections with this flag can be considered to be difficult for adversaries to manipulate since they contain information which affects the function of softwares.
+On the other hand, sections without this flag can be denoised since they are considered to be JPs which do not affect its function.
+By analyzing the header as described above, the locations of JPs can be identified easily from GSIs.
+
 \subsection{Defense scheme against OM}
 A defense scheme against OM, which is a malware whose BD is obfuscated with packing tools, is explained in this section.
 
@@ -479,7 +487,7 @@ According to the result above, we conclude that the proposed method with 1D Conv
   \end{center}
 \end{table}
 
-\paragraph{}
+\paragraph*{}
 In order to observe the relation between the detection accuracy and the filter size of 1D Conv., we evaluate the accuracy varing the filter width.
 The 1D Conv. size is changes based on the area of the 2D Conv., which is defined as $S$ in the evaluation, in the previous scheme.
 The result is shown in \figurename~\ref{fig:evalOM}, where the red line indicates the accuracy of the proposed scheme and the blue one does that of the previous scheme.
