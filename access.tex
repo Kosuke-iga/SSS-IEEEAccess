@@ -86,13 +86,13 @@ Unfortunately, vulnerable IoT devices are spreading since the countermeasures ca
 In fact, as shown in \figurename~\ref{fig:mirai}, attacks against companies using many IoT devices infected with malware have become a problem, and the detection of IoT malware has become an urgent issue.
 Thus, this circumstance results in the urgency of detecting IoT malware.
 
-\begin{figure}[t]
+\begin{figure*}[t]
  \centering
  %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/mirai.pdf}
+ \includegraphics[scale=0.56]{./figures/mirai.pdf}
  \caption{The case of attack damage by Mirai malware.} 
  \label{fig:mirai}
-\end{figure}
+\end{figure*}
 %\afterpage{\clearpage}
 %\newpage
 Existing solutions for detecting malware are mainly classified into router-side schemes \cite{net} and device-side schemes \cite{om, hwang, cfg, cfg2}.
@@ -153,15 +153,12 @@ By being based on the scanning/propagation phase, it can detect and isolate the 
 However, that scheme is subject to local network attacks where IoT devices are targeted directly by adversaries in the same local network.
 Thus, exploring the malware detection schemes which can be realized by each IoT device is needed due to the vulnerability against local network attacks.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/lan.pdf}
+ \includegraphics[scale=0.3]{./figures/lan.pdf}
  \caption{The router-side detection in the scanning/propagation flow and its problem.} 
  \label{fig:lan}
 \end{figure}
-%\afterpage{\clearpage}
-%\newpage
 
 \subsection{Device-side detection} 
 Device-side detection schemes are conducted by utilizing the features extracted from malware file itself at each device on the basis of malware, and they tend to have similality since adversaries make them based on the existing ones \cite{om, hwang, cfg, cfg2}.
@@ -184,10 +181,9 @@ In that research, they reveal that IoT malware, and also each malware family, ha
 Utilizing such properties of the CFGs, that scheme realize high accurate detection.
 However, that scheme is a time-consuming and laborious method due to the feature engineering for exploring effective metrics with analysing an enormous number of IoT malware.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/cfg.pdf}
+ \includegraphics[scale=0.3]{./figures/cfg.pdf}
  \caption{The overview of device-side detection using CFG.} 
  \label{fig:cfg}
 \end{figure}
@@ -208,23 +204,19 @@ Since, CNN can extract effective features from these GSI automatically by learni
 Furthermore, once trained, the network itself is lightweight and can be run with tiny computational resources, since only the trained parameters and information of network structure are kept.
 Thus, CNN is a suitable scheme for IoT malware detections since it does not demand feature engineering and also computational costs while the detection.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
  %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/malGSI.pdf}
+ \includegraphics[scale=0.35]{./figures/malGSI.pdf}
  \caption{The malware GSIs.} 
  \label{fig:malGSI}
 \end{figure}
-%\afterpage{\clearpage}
-%\newpage
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/benGSI.pdf}
+ \includegraphics[scale=0.3]{./figures/benGSI.pdf}
  \caption{The benign file GSIs.} 
  \label{fig:benGSI}
 \end{figure}
-%\afterpage{\clearpage}
 
 \subsection{Issues} 
 Although the previous scheme can cope with spreading IoT malware with device-side detection in more practical means, it is susceptible to evasive techniques against the inputs of the CNN, GSIs and binary \cite{attack1, attack2}.
@@ -232,14 +224,12 @@ Adversaries can evade the CNN based detection with two evasive techniques agains
 Malwares whose GSIs are manipulated to evade the detection are called Adversarial Malware (AM) and also malware whose binary is manipulated are called Obfuscated Malware (OM) in this research.  
 The representative vulnerabilities against each attack are explained in the following subsections.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/overview.pdf}
+ \includegraphics[scale=0.3]{./figures/overview.pdf}
  \caption{The overview of evasive techniques.} 
  \label{fig:ov}
 \end{figure}
-%\afterpage{\clearpage}
 
 \subsubsection{Vulnerability against GSI manipulation}
 The GSIs fed into the network as inputs in the previous scheme have pixels that match the Binary Data (BD), which is inserted into the source code by the compiler and has nothing to do with runtime behaviour \cite{am}.
@@ -249,23 +239,20 @@ The noise is added to the GSI of AM by manipulating the pixel values of pixel th
 By adding the noise in this way, the AM can mislead CNN as benign in the previous scheme.
 The AM attack is a threat to CNN detection since it allows the classifier to intentionally judge the malware as benign while maintaining the original behaviour of malware.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
  \includegraphics[scale=0.28]{./figures/AM.pdf}
  \caption{The AM GSIs.} 
  \label{fig:amGSI}
 \end{figure}
-%\afterpage{\clearpage}
 \subsubsection{Vulnerability against binary manipulation}
 The binary which converts to a GSI can also be manipulated to evade the CNN detection by being obfuscated \cite{om}.
 Due to the small computational resources, obfuscation techniques with packing tools, which also can compress the BD while encrypting, are tend to be used in IoT malware obfuscation field.
 As shown in \figurename~\ref{fig:omGSI}, the original BD is compressed and encrypted at the same time, and new headers and tool-dependent data which do not contribute to the decision for detection are inserted.
 In addition to the fact that malware obfuscated with the packing tools can be recovered and analyzed only at runtime, the encryption method differs depending on the packing tool.Thus, binary manipulation attack is a threat especially for IoT devices which are not suitable for dynamic analysis due to the limited computing resources since there is no way to statically analyze them in advance.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
  \includegraphics[scale=0.28]{./figures/OM.pdf}
  \caption{The OM GSIs.} 
  \label{fig:omGSI}
@@ -309,21 +296,21 @@ In the case of AM, it is the pixel region where noise cannot be added, and in th
 In each defense scheme, the detection accuracy can be improved by feeding those yellow region effectively to the CNN model.
 The representative schemes are explained in the following sections.
 
-\begin{figure}[h]
+\begin{figure*}[t]
  \centering
- \includegraphics[scale=0.28]{./figures/propAM.pdf}
- \caption{The valuable/manipulated regions in AM.} 
- \label{fig:propAM}
-\end{figure}
-
-\begin{figure}[h]
- \centering
- \includegraphics[scale=0.28]{./figures/propOM.pdf}
- \caption{The valuable/manipulated regions in OM.} 
- \label{fig:propOM}
-\end{figure}
-%\afterpage{\clearpage}
-%\newpage
+ \subfigure[The valuable/manipulated regions in AM.]{
+  %\centering
+  \label{fig:propAM}
+  \hspace{0.04\columnwidth}
+  \includegraphics[scale=0.45]{./figures/propAM.pdf}
+ }
+ \subfigure[The valuable/manipulated regions in OM.]{
+  \label{fig:propAM}
+  \includegraphics[scale=0.5]{./figures/propOM.pdf}
+ }
+ \caption{The valuable/manipulated regions in each target.} 
+ \label{fig:prop}
+\end{figure*}
 
 \subsection{Defense scheme against AM}
 A defense scheme against AM, which is a malware whose GSI is manipulated, is explained in this section.
@@ -344,9 +331,8 @@ Hence, we utilize JPs, which locate in this area, for our detection as it is.
 
 By doing this denoising process, the detection without being misled by AMs would be possible since only the pixels which tend to be not manipulated can be used for our classification.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
- %\hspace{-55pt}
  \includegraphics[scale=0.28]{./figures/denoise.pdf}
  \caption{The difference with before and after denoising AM GSI.} 
  \label{fig:denoise}
@@ -355,10 +341,17 @@ By doing this denoising process, the detection without being misled by AMs would
 In order to identify the JPs, we focus on the fact that binary regions that are necessary or unnecessary at runtime can be classified according to informataion of each section.
 Based on the information of each section, the JP regions existing in a GSI can be searched by analysing the header in BD.
 An example of a header obtained by analysing a BD is shown in \figurename~\ref{fig:header}.
-From headers, we pay particular attention to the flag that indicates memory allocation at runtime.
-Sections with this flag can be considered to be difficult for adversaries to manipulate since they contain information which affects the function of softwares.
-On the other hand, sections without this flag can be denoised since they are considered to be JPs which do not affect its function.
-By analyzing the header as described above, the locations of JPs can be identified easily from GSIs.
+From the header, we pay particular attention to the ALLOC flags, which are enclosed in a yellow frame in \figurename~\ref{fig:header}, indicating memory allocation at runtime.
+Sections with these ALLOC flags can be considered to be difficult for adversaries to manipulate since they contain information which affects the function of softwares.
+The manipulation of those sections can lead to destruction of malware functionality. 
+On the other hand, sections without the ALLOC flags can be denoised since they are considered to be JPs which do not affect its function.
+The locations of JPs can be identified and denoised based on the ALLOC flags and their addresses in the BD from the analysis as described above.
+\begin{figure*}[t]
+ \centering
+ \includegraphics[scale=0.56]{./figures/header.pdf}
+	\caption{Header analysis and denoising process based on ALLOC flags.} 
+ \label{fig:header}
+\end{figure*}
 
 \subsection{Defense scheme against OM}
 A defense scheme against OM, which is a malware whose BD is obfuscated with packing tools, is explained in this section.
@@ -381,14 +374,14 @@ Furthermore, it is possible to avoid the degradation of valuable pixel weight by
 
 As described above, by using 1D filters to show the horizontal correlations between encrypted byte sequences, we can improve the detection accuracy by highlighting features retained in the OM which are valuable for training CNN model even under the static analysis.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
  %\hspace{-55pt}
- \includegraphics[scale=0.28]{./figures/2d.pdf}
+ \includegraphics[scale=0.3]{./figures/2d.pdf}
  \caption{The flow of convolution with 2D Conv..} 
  \label{fig:2d}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
  %\hspace{-55pt}
  \includegraphics[scale=0.26]{./figures/1d.pdf}
@@ -455,7 +448,7 @@ Although a slight decrease in detection accuracy is observed compared to the pre
 Thus, the loss of valuable information for classification by removing noise can be considered to be small.
 Hence, we conclude that the proposed method against AM, where the non-valuable pixels at runtime are focused on, achieves a robust defense method which can invalidate adversarial techniques in AM.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
  %\hspace{-100pt}
  \includegraphics[scale=0.35]{./figures/evalAM.pdf}
@@ -496,7 +489,7 @@ The result suggests that a certain width is necessary to emphasize the appearing
 Meanwhile, the accuracy decreases from $1.5S$ to $2.0S$.
 We consider that this is caused by the decrease in learning efficiency due to the increase in parameters caused by the expansion of the filter size.
 
-\begin{figure}[h]
+\begin{figure}[t]
  \centering
  %\hspace{-100pt}
  \includegraphics[scale=0.35]{./figures/evalOM.pdf}
