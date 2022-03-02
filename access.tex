@@ -95,7 +95,7 @@ Thus, this circumstance results in the urgency of detecting IoT malware.
 \end{figure*}
 %\afterpage{\clearpage}
 %\newpage
-Existing solutions for detecting malware are mainly classified into network-based schemes \cite{zako, diot, net} and host-based schemes \cite{om, hwang, cfg, cfg2}.
+Existing solutions for detecting malware are mainly classified into network-based schemes \cite{zako, diot, net} and host-based schemes \cite{om, hwang, cfg, cfg2, op-graph, func-graph, api-graph}.
 
 Network-based schemes pay attention to the fact that there exist strong evidences of malware in network traffic.
 This is because IoT devices infected with malware send and receive anomalous packets which are different from the original purpose of the device, such as flooding traffic, scanning of random IP addresses, or infection of other targets.
@@ -177,27 +177,33 @@ Thus, exploring the malware detection schemes which can be realized by each IoT 
 
 \subsection{Host-based detection}
 Host-based detection schemes are conducted by utilizing the features extracted from malware file itself at each device.
-They tend to have similality because adversaries create new malware based on the existing ones \cite{om, hwang, cfg, cfg2} in many cases.
+They tend to have similality because adversaries create new malware based on the existing ones \cite{om, hwang, cfg, cfg2, op-graph, func-graph, api-graph} in many cases.
 Most of them utilize various features which can be extracted statically since IoT devices are not suitable for dynamic approach due to their limited computing and storage capabilities.
 
-Torabi et al. propose the scheme which utilizes meaningful strings from the BC, such as IP addresses of adversarial hosts (e.g., C\&C servers) and/or embedded commands/payloads \cite{om}.
+Researchers \cite{om, hwang} propose the scheme which utilizes meaningful strings from the BC as metrics of benign software or malware.
+Especially, Torabi et al. propose the scheme which utilizes strings related to the adversarial behaviours, such as IP addresses of adversarial hosts (e.g., C\&C servers) and/or embedded commands/payloads \cite{om}.
 That scheme focuses on the fact that IoT malware needs to communicate with adversarial hosts to obtain malicious command/payload and upload gathered information.
 This is typically achieved by embedding a series of commands and IP addresses to ensure successful post-infection communication for conducting further malicious activities. 
 Although that scheme realizes lightweight static detection with simple reverse-engineering techniques, its detection can be easily avoided by malware where the meaningful strings are obfuscated in order to prevent from being extracted.
 Such obfuscation techniques can be applied even on IoT devices where the computing and storage capabilities are limited.
 
-Hwang et al. also use string information from BC \cite{hwang}.
-They extract around 1800 different strings including API names, DLL names, library function names of programming languages and PE/ELF file formats.
-The major limitation of their work is also that their method may not be effective over packed or encrypted samples because their method depends only on the strings available explicitly, and such packed/encrypted samples reveal limited string information during static analysis.
+%Hwang et al. also use string information from BC \cite{hwang}.
+%They extract around 1800 different strings including API names, DLL names, library function names of programming languages and PE/ELF file formats.
+%The major limitation of their work is also that their method may not be effective over packed or encrypted samples because their method depends only on the strings available explicitly, and such packed/encrypted samples reveal limited string information during static analysis.
 
-In order to avoid easily detection rejection by adversaries, researchers \cite{cfg, cfg2} propose the scheme which utilizes the features acquired from a Control Flow Graph (CFG), which could be used to extract representative static features of the application.
-\myfigurename~\ref{fig:cfg} shows the overview of host-based detection using CFG.
+In order to avoid easily detection rejection by such metric manipulating, researchers \cite{cfg, cfg2} propose the scheme which utilize the relationship among the features, in addition to the features themselves, acquired from a graph.
+The nodes in the graph usually represent the actual features themselves, such as APIs, Opcodes, and their relationships are expressed by the edges.
+Several works have been proposed over the schemes which utilize the graphs, Control Flow Graph (CFG) \cite{cfg, cfg2}, opcode flow graph \cite{op-graph}, function flow graph \cite{func-graph}, and API-call graph \cite{api-graph}.
+
+Especially, \myfigurename~\ref{fig:cfg} shows the overview of host-based detection using CFG.
 The theoretic metrics of CFGs are the number of edges, density of a graph, shortest paths between each node and so on.
 They can be multiple features of the model effctively derived from malware constructions under the limitation of static approach.
 Alasmary et al. focus on the fact that some defferences in those metrics can be observed between benign software and IoT malware \cite{cfg}.
-In that research, they reveal that IoT malware, and also each malware family, have various algorithmic and structural properties through complex analysis of CFGs acquired from about 6,000 malware and benign software as shown in \myfigurename~\ref{fig:cfg}. 
-Utilizing such properties of the CFGs, that scheme realizes highly accurate detection.
+In that research, they reveal that IoT malware, and also each malware family, have various algorithmic and structural properties through complex analysis of CFGs acquired from about 6,000 malware and benign software as shown in \myfigurename~\ref{fig:cfg}.
+Their scheme reveals that the CFG with the analyzed properties can significantly reveal less complex evasion techniques, especially used in IoT malware, such as packing and obfuscation.
+Thus, that scheme realizes highly accurate detection.
 However, that scheme is a time-consuming and laborious method due to the feature engineering for exploring effective metrics with analysing an enormous number of IoT malware.
+
 
 \begin{figure}[t]
  \centering
@@ -209,7 +215,7 @@ However, that scheme is a time-consuming and laborious method due to the feature
 \section{Previous scheme} \label{sec:previous_scheme}
 \subsection{Overview} 
 In order to deal with spreading IoT malware with host-based detections in more practical means, CNN is utilized in the previous scheme \cite{previous}.
-Our research is more practical scheme which applys this host-based detection with CNN improving its issues.
+%Our research is more practical scheme which applys this host-based detection with CNN improving its issues.
 The main idea of the previous scheme is that there exists the difference of GSIs converted from each malware BC which is always acquired in IoT devices due to the exectable format of them.
 In the previous scheme \cite{previous}, a malware BC is reformatted as an 8-bit sequence and then is converted to a GSI which has one channel and pixel values from 0 to 255.
 To confirm the differences of malware and benign software, we prepared some samples of malware and benign software GSIs and compared them.
@@ -418,7 +424,7 @@ Accuracy is calculated as:
 \begin{equation}
   \mathrm{Accuracy} = \frac{\mathrm{TP}+\mathrm{TN}}{\mathrm{TP} + \mathrm{TN} + \mathrm{FP} + \mathrm{FN}}, 
 \end{equation}
-where TP, TN, FP, and FN denote the number of True Positive (malware are regarded as malware), True Negative (benign softwares are regarded as benign ones), False Positive (benign softwares are regarded as malware), and False Negative (malware are regarded as benign softwares), respectively.  
+where TP, TN, FP, and FN denote the number of True Positive (malware is regarded as malware), True Negative (benign software is regarded as benign one), False Positive (benign software is regarded as malware), and False Negative (malware is regarded as benign software), respectively.
 
 \subsection{Simulaion parameters}
 \begin{table}[h]
@@ -430,7 +436,7 @@ where TP, TN, FP, and FN denote the number of True Positive (malware are regarde
 			benign softwares & Ubuntu 16.04.3\cite{ubuntu}\\ \hline
 			\multirow{2}{*}{\hfill Malwares  \hfill} & IoTPOT\cite{iotpot} \\ 
 																							 & VirusTotal\cite{virustotal}\\ \hline
-			Number of benign softwares  & 1,442 \\  \hline
+			Number of benign software  & 1,442 \\  \hline
 			Number of malware  &  7,263 \\ \hline
 			AM attack method & White-box \cite{am, yamafumi} \\ \hline
 			\multirow{2}{*}{\hfill Packing tools for OM  \hfill} & UPX\cite{upx} \\ & kiteshield\cite{kiteshield} \\ \hline
@@ -442,32 +448,33 @@ where TP, TN, FP, and FN denote the number of True Positive (malware are regarde
 	\end{center}
 \end{table} 
 
-\tablename~\ref{tab:simulation_parameters} shows our simulation parameters.  
+\tablename~\ref{tab:simulation_parameters} shows our simulation parameters.
 
-We use the benign softwares from Ubuntu system files \cite{ubuntu} as the begin files.
-Meanwhile, malware are collected from IoTPOT \cite{iotpot} and VirusTotal \cite{virustotal} which is a repository of malware samples for security researchers.
+In accordance with the benign dataset in the previous scheme \cite{previous}, we also use the benign software from Ubuntu system files \cite{ubuntu} as the begin files.
+Meanwhile, malware samples are collected from IoTPOT \cite{iotpot} and VirusTotal \cite{virustotal} which is a repository of malware samples for security researchers.
 In order to use those samples as inputs for CNN, we convert each sample to the correponding GSI by following the same procedures implemented in \cite{previous}.
 In particular, a BC can be reformatted to a sequence whose elements are 8-bit strings.
 Then, each string can be converted to a decimal number which can be seen as the value of a one-channel pixel.
 After that, we rescale the GSIs to the size of 64*64 such that they can be input to the CNN.
-In particular, manipulated malware for each attack are created with an adversarial technique implemented in \cite{am, yamafumi} and two packing tools \cite{upx, kiteshield} shown in \tablename~\ref{tab:simulation_parameters}.
+In particular, manipulated malware for each attack is created with an adversarial technique implemented in \cite{am, yamafumi} and two packing tools \cite{upx, kiteshield} shown in \tablename~\ref{tab:simulation_parameters}.
 
-In the case of AM-resiliency evaluation, we apply a white-box method as a adversarial technique for AM, where an the adversary knows the training data and the structure of the CNN model since it is currently the mainstream in this reserch field.
+In the case of AM-resiliency evaluation, we apply a white-box method as a adversarial technique for AM, where an the adversary knows the training data and the structure of the CNN model because it is currently the mainstream in this reserch field \cite{yamafumi, am, ae}.
 
 In the case of OM-resiliency evaluation, we use two packing tools, called UPX \cite{upx} and kiteshield \cite{kiteshield}, in order for malware to be obfuscated.
 The UPX is a tool which is often utilized mainly for software compression purposes and, according to \cite{pack_research}, the use of it is confirmed in more than 50\% of obfuscated malware. 
-Meanwhile, the kiteshield is a tool which is often utilized mainly for the purpose of encrypting softwares.
-Especially, in this evaluation, we prepare three dataset on the basis of which tools to be used for their obfuscation in order to show the versatility in that our scheme is independent of the packing tools.
-Two datasets of the three are composed of malware obfuscated by each packing tooks, UPX and kiteshield, and the other are mixed malware from those datasets. 
+On the other hand, the kiteshield is a tool which is often utilized mainly for the purpose of encrypting software, which realizes obfuscation of malware.
+Especially, in this evaluation, we prepared three datasets on the basis of tools used for their obfuscation in order to show that our scheme is independent of the packing tools.
+Two datasets out of the three are composed of malware obfuscated by each packing tools, namely UPX and kiteshield, and the other is a mixed dataset that comprises these datasets.
 
-In the evaluation in respective evaluation, some of the samples from total manipulated malware, 800 samples in AM attack scenario and 1000 samples in OM attack scenario, are picked randomly, then utilized as inputs in order to keep balance between the number of malware and that of benign ones.
+In the evaluation in respective evaluation, some of the samples from malware dataset, 800 samples in AM attack scenario and 1,000 samples in OM attack scenario, are picked randomly, then utilized as inputs in order to keep balance between the number of malware and that of benign ones.
 
 \subsection{Evaluation of the invalidating adversarial byte sequences against AM attack}
-The effectiveness of the proposed method against AM which invalidates adversarial byte sequences with noise removal in the non-valuable pixels is shown in this subsection.
-We compare the accuracy of our proposed scheme with that of the previous scheme as shown in \myfigurename~\ref{fig:evalAM}.
+In this subsection, we show the effectiveness of the proposed method against AM which invalidates adversarial byte sequences with noise removal in the non-valuable pixels.
+We compare the accuracy of the proposed scheme with that of the previous scheme.
+\myfigurename~\ref{fig:evalAM} shows the accuracy of the proposal against AM.
 The left graph represents the accuracy of the previous scheme in detecting original malware, the middle one does that in detecting AM, and the right one does the accuracy of the proposal, where non-valuable pixel values in benign and AM samples are converted to zero.
 As shown in \myfigurename~\ref{fig:evalAM}, the proposed scheme achieves improving the accuracy degraded by AM from 66.1\% to 99.4\%.
-Although a slight decrease in detection accuracy is observed compared to the previous scheme and the proposal, the proposal is able to maintain high accuracy.
+Although a slight decrease in detection accuracy in the proposal is observed compared to the previous scheme, the proposal is able to maintain high accuracy.
 Thus, the loss of valuable information for classification by removing noise can be considered to be small.
 Hence, we conclude that the proposed method against AM, where the non-valuable pixels at runtime are focused on, achieves a robust defense method which can invalidate adversarial techniques in AM.
 
@@ -475,7 +482,7 @@ Hence, we conclude that the proposed method against AM, where the non-valuable p
  \centering
  %\hspace{-100pt}
  \includegraphics[scale=0.35]{./figures/evalAM.pdf}
- \caption{The accuracy of the proposal aginst AM.} 
+ \caption{The accuracy of the proposal aginst AM (Prev. and prop. mean the previous scheme and the proposed one, respectively).} 
  \label{fig:evalAM}
 \end{figure}
 %\afterpage{\clearpage}
@@ -483,8 +490,8 @@ Hence, we conclude that the proposed method against AM, where the non-valuable p
 \subsection{Evaluation of the method with 1D convolutional filters against OM attack}
 The effectiveness of the proposed method with 1D convolutional filters against OM is shown in this subsection.
 We compare the accuracy of our proposed scheme using 1D Conv. with that of the previous scheme using 2D Conv. in each dataset as shown in \tablename~\ref{tab:evalOM}.
-Compared to 2D Conv. in the previous scheme, the detection accuracy is improved by 1D Conv. in the proposal for all cases.
-In the datasets where the both-tools-made OM are mixed in particular, the accuracy improves from 86.2\% to 90.0\%.
+Compared to 2D Conv. on the previous scheme, the detection accuracy is improved by 1D Conv. on the proposal for all cases.
+In particular, in the datasets where the both-tools-made OM are mixed, the accuracy improves from 86.2\% to 90.0\%.
 According to the result above, we conclude that the proposed method with 1D Conv. against OM achieves a robust defense method with less tool-dependency against OM.
 \begin{table}[h]
   \begin{center}
@@ -496,20 +503,23 @@ According to the result above, we conclude that the proposed method with 1D Conv
     \begin{tabular}{|c|c|c|} \hline
       \multirow{2}{*}{\hfill  \hfill} & \multicolumn{2}{c|}{Accuracy}  \\ \cline{2-3} 
 					     & Prev. (2D filters) & Prop. (1D filters) \\ \hline \hline
-      UPX & 94.8\% & 96.2\% \\ \cline{1-3} 
-      kiteshield & 85.0\% & 87.8\% \\ \cline{1-3} 
-      mix & 86.2\% & 90.0\% \\ \cline{1-3} 
+        UPX & 94.8\% & \textbf{96.2\%} \\ \cline{1-3} 
+        kiteshield & 85.0\% & \textbf{87.8\%} \\ \cline{1-3} 
+        mix & 86.2\% & \textbf{90.0\%} \\ \cline{1-3} 
   \end{tabular}
   \end{center}
 \end{table}
 
 \paragraph*{}
-In order to observe the relation between the detection accuracy and the filter size of 1D Conv., we evaluate the accuracy varing the filter width.
-The 1D Conv. size is changes based on the area of the 2D Conv., which is defined as $S$ in the evaluation, in the previous scheme.
-The result is shown in \myfigurename~\ref{fig:evalOM}, where the red line indicates the accuracy of the proposed scheme and the blue one does that of the previous scheme.
+In order to investigate the relation between the detection accuracy and the filter size of 1D Conv., we evaluate the accuracy varing the filter width.
+The 1D Conv. size is changed on the basis of the area of the 2D Conv., which is defined as $S$ in the evaluation, in the previous scheme.
+The result is shown in \myfigurename~\ref{fig:evalOM}, where the red line graph indicates the accuracy of the proposed scheme, and the blue one does that of the previous scheme.
 In the range of $1/4S$ to $1.5S$, the accuracy increases as the filter size also increases, and reaches 90.0\% at $1.5S$.
-The result suggests that a certain width is necessary to emphasize the appearing order to the CNN model, since the remaining original byte sequences is highly disjoint due to resizing during GSI conversion and compression by obfuscation procedures.
-Meanwhile, the accuracy decreases from $1.5S$ to $2.0S$.
+The result reveals that a certain width is necessary to emphasize the order of appearance to the CNN model.
+This is because the remaining original byte sequences is highly disjoint due to resizing during GSI conversion and compression by obfuscation procedures.
+In other words, it is difficult to extract useful features from discrete byte sequences with conventional short horizontal filters for the CNN model.
+Thus, the long horizontal filter is suitable for obtaining horizontal connections as features from a scattered byte sequences after obfuscation.
+On the other hand, the accuracy decreases from $1.5S$ to $2.0S$.
 We consider that this is caused by the decrease in learning efficiency due to the increase in parameters caused by the expansion of the filter size.
 
 \begin{figure}[t]
@@ -534,11 +544,11 @@ Furthermore, I discover the horizontal connections in encrypted byte regions and
 \bibliographystyle{IEEEtran}% bib style
 \bibliography{IEEE_ref}
 
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./figures/kato.pdf}}]{Hiroya Kato} was born in Gunma, Japan in 1994. He received his B.E. and M.E. degrees from Keio University, in 2017 and 2019, respectively, where he is currently pursuing the Ph.D. degree. His research interest is security \& privacy for IoT. He is a member of IEICE.
-\end{IEEEbiography} 
-
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./figures/sasak.pdf}}]{Takahiro Sasaki} was born in Saitama, Japan in 1995. He received his B.E. degrees from Keio University in 2021. His research interest is security \& privacy for IoT.
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./figures/igarashi.pdf}}]{Kosuke Igarashi} was born in Hokkaido, Japan in 1996. He received his B.E. and M.E. degrees from Keio University, in 2020 and 2022, respectively. His research interest is security \& privacy for IoT.
 \end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./figures/kato.pdf}}]{Hiroya Kato} was born in Gunma, Japan in 1994. He received his B.E., M.E. and Ph.D. degrees from Keio University, in 2017 , 2019 and 2022, respectively. His research interest is security \& privacy for IoT. He is a member of IEICE.
+\end{IEEEbiography} 
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./figures/sasas.pdf}}]{Iwao Sasase} was born in Osaka, Japan in 1956. He received the B.E., M.E., and D.Eng. degrees in Electrical Engineering from Keio University, Yokohama, Japan, in 1979, 1981 and 1984, respectively. From 1984 to 1986, he was a Post Doctoral Fellow and Lecturer of Electrical Engineering at the University of Ottawa,ON, Canada. He is currently a Professor of Information and Computer Science at Keio University, Yokohama, Japan. His research interests include modulation and coding, broadband mobile and  wireless communications, optical communications, communication networks and information theory. He has authored more than 301 journal papers and 446 international conference papers. He granted 48 Ph.D. degrees to his students in the above field. Dr. Sasase received the 1984 IEEE Communications Society (ComSoc) Student Paper Award (Region 10), 1986 Inoue Memorial Young Engineer Award, 1988 Hiroshi Ando Memorial Young EngineerAward, 1988 Shinohara MemorialYoung EngineerAward, 1996 Institute of Electronics, Information, and Communication Engineers (IEICE) of Japan Switching System Technical Group Best Paper Award, and WPMC2008 Best Paper Award. He is now serving as a Vice-President of IEICE. He served as President of the IEICE Communications Society (2012-2014). He was Board of Governors Member-at-Large (2010-2012), Japan Chapter Chair (2011-2012), Director of the Asia Pacific Region (2004-2005), Chair of the Satellite and Space Communications Technical Committee (2000-2002) of IEEE ComSoc., Vice President of the Communications Society (2004-2006), Chair of the Network System Technical Committee (2004-2006), Chair of the Communication System Technical Committee (2002-2004) of the IEICE Communications Society, Director of the Society of Information Theory and Its Applications in Japan (2001-2002). He is Fellow of IEICE, and Senior Member of IEEE, Member of the Information Processing Society of Japan.
 \end{IEEEbiography}
