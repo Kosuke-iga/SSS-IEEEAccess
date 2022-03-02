@@ -204,7 +204,8 @@ Their scheme reveals that the CFG with the analyzed properties can significantly
 Thus, that scheme realizes highly accurate detection.
 However, that scheme is a time-consuming and laborious method due to the feature engineering for exploring effective metrics with analysing an enormous number of IoT malware.
 
-
+Thus, we consider that the scheme utilizing CNN is the most suitable scheme to detect rapid-expanded IoT malware because it does not require the feature engineering.
+We focus on the detection proposed by Su et al. \cite{previous} as the previous scheme and explain in the following section.
 \begin{figure}[t]
  \centering
  \includegraphics[scale=0.3]{./figures/cfg.pdf}
@@ -215,7 +216,7 @@ However, that scheme is a time-consuming and laborious method due to the feature
 \section{Previous scheme} \label{sec:previous_scheme}
 \subsection{Overview} 
 In order to deal with spreading IoT malware with host-based detections in more practical means, CNN is utilized in the previous scheme \cite{previous}.
-%Our research is more practical scheme which applys this host-based detection with CNN improving its issues.
+Our research is more practical scheme which applys this host-based detection with CNN improving its issues.
 The main idea of the previous scheme is that there exists the difference of GSIs converted from each malware BC which is always acquired in IoT devices due to the exectable format of them.
 In the previous scheme \cite{previous}, a malware BC is reformatted as an 8-bit sequence and then is converted to a GSI which has one channel and pixel values from 0 to 255.
 To confirm the differences of malware and benign software, we prepared some samples of malware and benign software GSIs and compared them.
