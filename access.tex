@@ -89,7 +89,7 @@ Thus, this circumstance results in the urgency of detecting IoT malware.
 \begin{figure*}[t]
  \centering
  %\hspace{-55pt}
- \includegraphics[scale=0.56]{./figures/mirai.pdf}
+ \includegraphics[scale=0.55]{./figures/mirai.pdf}
  \caption{The case of attack damage by Mirai malware.} 
  \label{fig:mirai}
 \end{figure*}
@@ -158,14 +158,19 @@ However, it cannot detect IoT malware activity much before the actual attack dur
 Thus, the detection schemes that are able to avert new malware infection or formulation of botnets are needed to reduce the risk of damage from attacks as much as possible.
 
 In order to avoid new malware infection, Kumar et al. \cite{net} propose the scheme focusing on network traffic while the scanning and propagation phase.
-Most of the existing malware behaviour in the phase are carried out in order to build a botnet as shown in \myfigurename~\ref{fig:lan}.
+Most of the existing malware tend to carry out scanning for and infecting vulnerable devices in the phase in order to build a botnet as shown in \myfigurename~\ref{fig:lan}.
+Furthermore, this phase of the botnet life-cycle streches over many months.
 Therefore, that scheme aims at detecting the bots scanning and infecting vulnerable devices before they participate in a botnet for an actual attack such as DDoS.
 %The abnormal traffic caused while this phase can be detected by using machine learning.
-It utilizes the number of unique destination IP addresses and packets per destination IP addresses as features observing incoming packets which have spcific target destination port number that the existing malware tends to send.
-The number of unique destination IP addresses in case of malware-induced scanning traffic will be far more than benign traffic since the malware generates random IP addresses and sends malicious requests to them.
-That scheme can detect and isolate the bots before attacks because the scanning and propagation phase of the botnet life-cycle stretches over many months, which results in such abnormal traffic that cannot be seen in benign cases.
+That scheme utilizes the number of destination IP addresses in fixed sesson intervals during the phase as features for ML model, such as the number of unique destination IP addresses and number of packets per destination IP address.
+%It utilizes the number of unique destination IP addresses and packets per destination IP addresses as features observing incoming packets which have spcific target destination port number that the existing malware tends to send.
+%The number of unique destination IP addresses in case of malware-induced scanning traffic will be far more than benign traffic since the malware generates random IP addresses and sends malicious requests to them.
+%That scheme can detect and isolate the bots before attacks because the scanning and propagation phase of the botnet life-cycle stretches over many months, which results in such abnormal traffic that cannot be seen in benign cases.
 %Also, the number of packets per destination IP addresses seeks to exploit the fact that malware typically does not send mulitiple malicious packets to the same IP addresses (only a single packet is sent in most cases), possibly to cover as many devices as possible during the scanning/propagation phase.
-Although that scheme can reduce the risk of malware infection itself, it is subject to local network attacks where IoT devices are targeted directly by adversaries in the same local network.
+The motivation behind selecting the first feature is that the malware generate random IP addresses and send malicious requests to them.
+Hence, the number of unique destination IP addresses in case of malware-induced scannning traffic will be far more than benign traffic. The
+The second feature set seeks to exploit the fact that malware typically do not send multiple malicious packets to the same IP address (only a single packet is sent in most cases), possibly to cover as many devices as possible during the scanning/propagation phase.
+Although that scheme can reduce the risk of malware infection before the actual attacks occur, it is subject to local network attacks where IoT devices are targeted directly by adversaries in the same local network.
 Thus, exploring the malware detection schemes which can be realized by each IoT device is needed due to the vulnerability to local network attacks.
 
 \begin{figure}[t]
@@ -191,18 +196,18 @@ Such obfuscation techniques can be applied even on IoT devices where the computi
 %They extract around 1800 different strings including API names, DLL names, library function names of programming languages and PE/ELF file formats.
 %The major limitation of their work is also that their method may not be effective over packed or encrypted samples because their method depends only on the strings available explicitly, and such packed/encrypted samples reveal limited string information during static analysis.
 
-In order to easily avoid detection rejection by such metric manipulating, researchers \cite{cfg, cfg2} propose the schemes which utilize the relationship among the features, in addition to the features themselves, acquired from a graph.
-Each graph consists of nodes and edges.
+In order to easily avoid detection rejection by such metric manipulating, researchers \cite{cfg, cfg2, op-graph, func-graph, api-graph} propose the schemes which utilize the relationship among the features, in addition to the features themselves, acquired from a graph.
+Each graph utilized in those schemes consists of nodes and edges.
 The nodes in the graph usually represent the actual features themselves, such as APIs, Opcodes, and their relationships are expressed by the edges.
-Several works have been proposed over the schemes which utilize the graphs, Control Flow Graph (CFG) \cite{cfg, cfg2}, opcode flow graph \cite{op-graph}, function flow graph \cite{func-graph}, and API-call graph \cite{api-graph}.
+In order to acquire effective features which can reveal algorithmic and structual properties, several graphs are utilized in those schemes, such as Control Flow Graph (CFG) \cite{cfg, cfg2}, opcode flow graph \cite{op-graph}, function flow graph \cite{func-graph}, and API-call graph \cite{api-graph}.
 
-In particular, \myfigurename~\ref{fig:cfg} shows the overview of host-based detection using CFG.
+In particular, \myfigurename~\ref{fig:cfg} shows the overview of host-based detection using CFG which is utilized in \cite{cfg, cfg2}.
 The theoretic metrics of CFGs are the number of edges, density of a graph, shortest paths between each node and so on.
 They can be multiple features of the model effctively derived from malware constructions under the limitation of static approach.
 Alasmary et al. \cite{cfg} focus on the fact that some defferences in those metrics can be observed between benign software and IoT malware.
 In that research, they reveal that IoT malware, and also each malware family, have various algorithmic and structural properties through complex analysis of CFGs acquired from about 6,000 malware and benign software as shown in \myfigurename~\ref{fig:cfg}.
-Their scheme reveals that the CFG with the analyzed properties can significantly reveal less complex evasion techniques, such as packing and obfuscation, especially used in IoT malware.
-Thus, that scheme realizes highly accurate detection.
+%Their scheme reveals that the CFG with the analyzed properties can significantly reveal less complex evasion techniques, such as packing and obfuscation, especially used in IoT malware.
+Their scheme realizes robust detection against metric manipulation by adversaries.
 However, that scheme is a time-consuming and laborious method due to the feature engineering for exploring effective metrics with analysing an enormous number of IoT malware samples.
 
 Thus, we consider that the scheme utilizing CNN is the most suitable scheme to detect rapid-expanded IoT malware because it does not require the feature engineering.
@@ -276,9 +281,9 @@ The AM attack is a serious threat to CNN detection since it allows the classifie
 \end{figure}
 \subsubsection{Vulnerability to BC manipulation}
 The BC which are converted to a GSI can also be manipulated to evade the CNN detection by being obfuscated \cite{om}.
-Due to the small computational resources of IoT devices, obfuscation techniques with packing tools, which also can compress the BC while encrypting, are tend to be used in IoT malware obfuscation field.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Unfortunately, this packing tool is also tend to be used for data-no-sakugenn in benign software in general /bunnkennsounyuu, which makes classification between malware and benign software difficult.
+Due to the small computational resources of IoT devices, obfuscation techniques with packing tools, which also can compress the BC while encrypting, are tend to be used in IoT malware obfuscation field \cite{zako, attack2}.
+According to the malware research conducted by Torabi et al. \cite{zako}, about $42.7\%$ of their malware samples are obfuscated by packing tools.
+Unfortunately, this packing tool is also tend to be used for data reduction purposes in benign software in general, which makes classification between malware and benign software difficult.
 \myfigurename~\ref{fig:omGSI} shows the GSIs of OM.
 As shown in \myfigurename~\ref{fig:omGSI}, the original BC is compressed and encrypted at the same time, and new headers and tool-dependent data which do not contribute to the decision for detection are inserted.
 In addition to the fact that malware obfuscated with the packing tools can be recovered and analyzed only at runtime, the encryption method differs depending on the packing tool.
@@ -363,22 +368,26 @@ The representative schemes are explained in the following sections.
   \label{fig:propOM}
   \includegraphics[scale=0.5]{./figures/propOM.pdf}
  }
- \caption{The valuable/manipulated regions in each target.} 
+ \caption{The valuable/manipulated regions in each target.}
  \label{fig:prop}
 \end{figure*}
 
 \subsection{Defense scheme against AM}
 A defense scheme against AM, which is malware whose GSI is manipulated, is explained in this section.
-In our proposal, we call manipulatable pixels by adversaries Junk Pixels (JPs), and we think it would be possible to remove the noise by converting their pixel values into 0, which means turning them black pixels.
+In our proposal, we call manipulatable pixels by adversaries Junk Pixels (JPs), and we think it would be possible to remove the noise by converting their pixel values into 0, which means turning them into black pixels.
 
-The two GSIs as shown in \myfigurename~\ref{fig:denoise} are the GSI of AM with noise added by adversary and the that with denoising for JPs in our proposal.
+The two GSIs as shown in \myfigurename~\ref{fig:denoise} are the GSI of AM with noise added by adversary and that with denoising for JPs in our proposal.
 The red box area is the area where the pixel values are converted into 0 as JPs.
 This pixel region corresponds to the byte sequences which contain unnecessary information at runtime, such as metadata and debugging information used while linking.
 Thus, they can be regarded as candidate pixels where adversarial noise can be added when AMs are created.
 
-On the other hand, yellow box area is the area with no manipulation in our proposal.
-This pixel area corresponds to the byte sequences that are related to malicious behavior and data held in each file.
-Thus, it is judged to hold valuable information for the classification becausse it is difficult for adversary to manipulate these byte sequences reelated to the malware function without interfering with it.
+On the other hand, we consider that manipulating the yellow box area is difficult for adversary because it corresponds to the byte sequences that are related to malicious behavior and data held in each file.
+%yellow box area is the area with no manipulation in our proposal.
+It means the adversarial manipulation on this area is likely to result in dysfunction of the malware.
+%This pixel area corresponds to the byte sequences that are related to malicious behavior and data held in each file.
+Accordingly, only these area without any adversarial manipulation is used for our detection scheme because it is judged to hold valuable information for the classification even after the adversarial attack.
+%since it is almost impossible to manipulate without interfering with its function.
+%becausse it is difficult for adversary to manipulate these byte sequences reelated to the malware function without interfering with it.
 %Hence, we utilize JPs, which locate in this area, for our detection as it is.
 
 By doing this denoising process, the detection without being misled by AMs would be possible since only the pixels which tend not to be manipulated can be used for our classification.
@@ -390,14 +399,30 @@ By doing this denoising process, the detection without being misled by AMs would
  \label{fig:denoise}
 \end{figure}
 
-In order to identify the JPs, we focus on the fact that BC regions that are necessary or unnecessary at runtime can be classified according to informataion of each section.
-Based on the information of each section, the JP regions existing in a GSI can be searched by analysing the header in BC.
+%\begin{algorithm}[t]
+ % \caption{ELF Header Analysis Command}
+  %\label{alg}
+  %\begin{algorithmic}[1]
+    %\Require \textit{filename}
+    %\Ensure A header of its file
+  %\State objdump -h \textit{filename}
+  %\end{algorithmic}
+%\end{algorithm}
+In order to identify the JPs, we focus on the fact that BC regions that are necessary or unnecessary at runtime can be classified according to information of each section.
+This JP identification is conducted by analysing the header in BC.
+%Based on the information of each section, the JP regions existing in a GSI can be searched by analysing the header in BC.
+The header can be extracted using ObjDump with $-h$ option, which displays details of sections included in an ELF file.
 An example of a header obtained by analysing a BC is shown in \myfigurename~\ref{fig:header}.
 From the header, we pay particular attention to the ALLOC flags, which are enclosed in a yellow frame in \myfigurename~\ref{fig:header}, indicating memory allocation at runtime.
 Sections with these ALLOC flags can be considered to be difficult for adversaries to manipulate since they contain information which affects the function of software.
-The manipulation of those sections can lead to destruction of malware functionality. 
+The manipulation of those sections can lead to destruction of malware functionality.
 On the other hand, sections without the ALLOC flags can be denoised since they are considered to be JPs which do not affect its function.
-The locations of JPs can be identified and denoised on the basis of the ALLOC flags and their addresses in the BC from the analysis as described above.
+%The locations of JPs can be identified and denoised on the basis of the ALLOC flags.
+The location of JPs in the whole GSI is determined on the basis of the offset included in the detail of each section which has no ALLOC flag.
+Then, all of the pixel values acquired by the determination are converted to 0.
+In the example GSI shown in \myfigurename~\ref{fig:denoise}, the red box area is determined as JPs and converted to black.
+The GSI with denoising process as described above is utilized as an input to the CNN model.
+%each addresses in the BC from the analysis as described above.
 \begin{figure*}[t]
  \centering
  \includegraphics[scale=0.56]{./figures/header.pdf}
