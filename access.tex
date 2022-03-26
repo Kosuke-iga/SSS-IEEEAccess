@@ -581,6 +581,17 @@ We consider that this is caused by the decrease in learning efficiency due to th
 \end{figure}
 
 \section{Limitation} \label{sec:limitation}
+Our scheme can satisfy requirements for practical use.
+However, there exists a limitation even in the proposed scheme.
+It is that the detection accuracy against OM is not yet sufficient compared to that against AM.
+This is an issue which came to light only after the study for OM in our research.
+This is because the vulnerability to BC manipulation with packing tools has not been considered in any other studies which utilize CNN detection \cite{previous} and, hence, its research is still in the early stage.
+In order to address this limitation, further verification of the relationship between packing tools used and filter size is needed.
+At this stage, our scheme utilizes two packing tools for obfuscation since not a sufficient number of samples have been collected in this field\cite{attack2}.
+As a result, no detailed study has been conducted on how to determine the appropriate filter size for the trend of packing methods used.
+Thus, we might have to collect and customize various packed samples to increase our dataset and proceed with study.
+We will work on this task as future work.
+
 \section{Conclusion and future work} \label{sec:conclusion}
 In this paper, we have proposed an evasion-resilient IoT ,malware detection scheme with invalidating adversarial byte sequences and 1D convolutional filters. 
 We utilize remaining regions which contribute to decision making in both manipulated targets, GSI and BC, even after the attacks.
@@ -590,6 +601,9 @@ The defense methods of our scheme are effective in both cases.
 In the evaluation of the method against AM, it improves detection accuracy without the loss of valuable information.
 In the evaluation of the method against OM, it improves detection accuracy independent of the packing tool.
 Furthermore, I discover the horizontal connections in encrypted byte regions and the efficiency of 1D Conv.
+Thus, our scheme is more robust and, thus, suitable for practical use.
+However, our scheme against OM attack has the limitaion.
+To address it, our future work will focus on the relation between the methods of each packing tool and 1D Conv. size.
 
 \bibliographystyle{IEEEtran}% bib style
 \bibliography{IEEE_ref}
